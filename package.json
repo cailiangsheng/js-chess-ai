@@ -1,0 +1,26 @@
+{
+  "name": "js-chess-ai",
+  "version": "1.0.0",
+  "description": "Chinese Chess AI",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cailiangsheng/js-chess-ai.git"
+  },
+  "keywords": [
+    "chess",
+    "ai"
+  ],
+  "author": "Larry Cai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cailiangsheng/js-chess-ai/issues"
+  },
+  "homepage": "https://github.com/cailiangsheng/js-chess-ai#readme",
+  "dependencies": {
+    "xqbase.com": "git+https://github.com/cailiangsheng/xqbase.com.git"
+  }
+}
