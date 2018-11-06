@@ -1,5 +1,6 @@
 var gulp = require('gulp')
 var concat = require('gulp-concat')
+var uglify = require('gulp-uglify')
 
 var files = [
 	'book.js',
@@ -15,6 +16,7 @@ var sources= files.map(file => `${folder}/${file}`).concat('src/index.js')
 gulp.task('concat', () => {
 	gulp.src(sources)
 		.pipe(concat('xqwlight.js'))
+		.pipe(uglify())
 		.pipe(gulp.dest('dist'))
 })
 
