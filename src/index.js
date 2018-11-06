@@ -1,0 +1,1 @@
+var HELLO_WORLD = 'Hello World!'
