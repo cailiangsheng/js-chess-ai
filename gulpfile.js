@@ -11,7 +11,12 @@ var files = [
 
 var folder = 'node_modules/xqbase.com/xqwlight'
 
-var sources= files.map(file => `${folder}/${file}`).concat('src/index.js')
+var libs = files.map(file => `${folder}/${file}`)
+
+var sources= libs.concat([
+	'src/board.js',
+	'src/index.js'
+])
 
 gulp.task('concat', () => {
 	gulp.src(sources)
