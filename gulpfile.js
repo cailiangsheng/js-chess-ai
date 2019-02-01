@@ -13,7 +13,7 @@ var folder = 'node_modules/xqbase.com/xqwlight'
 
 var libs = files.map(file => `${folder}/${file}`)
 
-var sources= libs.concat([
+var sources = libs.concat([
 	'src/board.js',
 	'src/index.js'
 ])
@@ -25,4 +25,15 @@ gulp.task('concat', () => {
 		.pipe(gulp.dest('dist'))
 })
 
-gulp.task('default', ['concat'])
+gulp.task('copy', () => {
+	var assets = ['src/style.css', 'src/index.htm']
+	gulp.src(assets).pipe(gulp.dest('dist'))
+
+	var resources = ['sounds', 'images']
+	resources.forEach(resource => {
+		gulp.src(`${folder}/${resource}/*`)
+			.pipe(gulp.dest(`dist/${resource}`))
+	})
+})
+
+gulp.task('default', ['concat', 'copy'])
