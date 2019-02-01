@@ -34,11 +34,11 @@ var resources = [
   "sounds/draw.wav",
   "sounds/loss.wav",
   "sounds/newgame.wav",
-  "book.js",
-  "position.js",
-  "search.js",
-  "board.js",
-  "cchess.js",
+  // "book.js",
+  // "position.js",
+  // "search.js",
+  // "board.js",
+  // "cchess.js",
   null
 ];
 resources.pop();
@@ -60,11 +60,11 @@ for (i = 0; i < resources.length; i++) {
     if (n > 0) {
       return;
     }
-    loadScript("book.js");
-    loadScript("position.js");
-    loadScript("search.js");
-    loadScript("board.js");
-    loadScript("cchess.js");
+    // loadScript("book.js");
+    // loadScript("position.js");
+    // loadScript("search.js");
+    // loadScript("board.js");
+    // loadScript("cchess.js");
     container.innerHTML = "";
     setTimeout(main, 100);
   };

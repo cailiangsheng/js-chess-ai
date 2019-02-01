@@ -9,7 +9,9 @@ var files = [
 	'cchess.js'
 ]
 
-var folder = 'node_modules/xqbase.com/xqwlight'
+var root = 'node_modules/xqbase.com'
+
+var folder = `${root}/xqwlight`
 
 var libs = files.map(file => `${folder}/${file}`)
 
@@ -26,7 +28,7 @@ gulp.task('concat', () => {
 })
 
 gulp.task('copy', () => {
-	var assets = ['src/style.css', 'src/index.htm']
+	var assets = ['src/style.css', 'src/index.htm', `{root}/background.gif`]
 	gulp.src(assets).pipe(gulp.dest('dist'))
 
 	var resources = ['sounds', 'images']
