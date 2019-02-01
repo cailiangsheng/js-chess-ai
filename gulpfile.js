@@ -1,6 +1,8 @@
 var gulp = require('gulp')
+var clean = require('gulp-clean')
 var concat = require('gulp-concat')
 var uglify = require('gulp-uglify')
+var runSequence = require('run-sequence')
 
 var files = [
 	'book.js',
@@ -18,22 +20,39 @@ var sources = libs.concat([
 	'src/index.js'
 ])
 
+gulp.task('clean', () => {
+	return gulp.src('./dist', { read: false })
+		.pipe(clean())
+})
+
 gulp.task('concat', () => {
-	gulp.src(sources)
+	return gulp.src(sources)
 		.pipe(concat('xqwlight.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest('dist'))
 })
 
-gulp.task('copy', () => {
+gulp.task('copy', (cb) => {
 	var assets = ['src/style.css', 'src/index.htm', 'node_modules/xqbase.com/background.gif']
-	gulp.src(assets).pipe(gulp.dest('dist'))
-
 	var resources = ['sounds', 'images']
+
+	let count = 0
+	var callback = () => {
+		count++
+		return () => {
+			if (--count === 0) cb()
+		}
+	}
+
+	gulp.src(assets).pipe(gulp.dest('dist')).on('end', callback())
+
 	resources.forEach(resource => {
 		gulp.src(`${folder}/${resource}/*`)
 			.pipe(gulp.dest(`dist/${resource}`))
+			.on('end', callback())
 	})
 })
 
-gulp.task('default', ['concat', 'copy'])
+gulp.task('default', (cb) => {
+	runSequence('clean', 'concat', 'copy', cb)
+})
