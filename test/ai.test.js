@@ -48,11 +48,15 @@ describe('ChessAI', () => {
   })
 
   it('click squares', (done) => {
-    ai.clickSquare(iccs2sq('H2'))
-    ai.clickSquare(iccs2sq('E2'))
+    const iccs = 'H2-E2'
+
+    // do clicks
+    iccs2sqs(iccs).forEach((sq) => ai.clickSquare(sq))
+
+    // get moves
     setTimeout(() => {
       expect(iccsList).to.have.length(2)
-      expect(iccsList[0]).to.equal('H2-E2')
+      expect(iccsList[0]).to.equal(iccs)
       done()
     }, 1500)
   })
