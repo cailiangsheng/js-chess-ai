@@ -18,6 +18,11 @@ var libs = files.map(file => `${folder}/${file}`)
 var sources = libs.concat([
 	'src/board.js',
 	'src/index.js'
+	// 'src/main.js'
+])
+
+var sources_ai = libs.concat([
+	'src/ai.js'
 ])
 
 gulp.task('clean', () => {
@@ -29,6 +34,13 @@ gulp.task('concat', () => {
 	return gulp.src(sources)
 		.pipe(concat('xqwlight.js'))
 		.pipe(uglify())
+		.pipe(gulp.dest('dist'))
+})
+
+gulp.task('concat-ai', () => {
+	return gulp.src(sources_ai)
+		.pipe(concat('ai.js'))
+		// .pipe(uglify())
 		.pipe(gulp.dest('dist'))
 })
 
@@ -54,5 +66,5 @@ gulp.task('copy', (cb) => {
 })
 
 gulp.task('default', (cb) => {
-	runSequence('clean', 'concat', 'copy', cb)
+	runSequence('clean', 'concat', 'concat-ai', 'copy', cb)
 })

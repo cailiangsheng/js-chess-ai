@@ -55,12 +55,13 @@ function MOVE_PX(src, dst, step) {
 }
 
 function alertDelay(message) {
-  setTimeout(function() {
+  setTimeout(function () {
     alert(message);
   }, 250);
 }
 
 function Board(container, images, sounds) {
+  console.log('Board.constructor')
   this.images = images;
   this.sounds = sounds;
   this.pos = new Position();
@@ -82,7 +83,7 @@ function Board(container, images, sounds) {
   style.height = BOARD_HEIGHT + "px";
   style.background = "url(" + images + "board.jpg)";
   var this_ = this;
-  for (var sq = 0; sq < 256; sq ++) {
+  for (var sq = 0; sq < 256; sq++) {
     if (!IN_BOARD(sq)) {
       this.imgSquares.push(null);
       continue;
@@ -95,11 +96,11 @@ function Board(container, images, sounds) {
     style.width = SQUARE_SIZE;
     style.height = SQUARE_SIZE;
     style.zIndex = 0;
-    img.onmousedown = function(sq_) {
-      return function() {
+    img.onmousedown = function (sq_) {
+      return function () {
         this_.clickSquare(sq_);
       }
-    } (sq);
+    }(sq);
     container.appendChild(img);
     this.imgSquares.push(img);
   }
@@ -120,35 +121,37 @@ function Board(container, images, sounds) {
   this.flushBoard();
 }
 
-Board.prototype.playSound = function(soundFile) {
+Board.prototype.playSound = function (soundFile) {
+  console.log('Board.playSound', soundFile)
   if (!this.sound) {
     return;
   }
   try {
     new Audio(this.sounds + soundFile + ".wav").play();
   } catch (e) {
-    this.dummy.innerHTML= "<embed src=\"" + this.sounds + soundFile +
-        ".wav\" hidden=\"true\" autostart=\"true\" loop=\"false\" />";
+    this.dummy.innerHTML = "<embed src=\"" + this.sounds + soundFile +
+      ".wav\" hidden=\"true\" autostart=\"true\" loop=\"false\" />";
   }
 }
 
-Board.prototype.setSearch = function(hashLevel) {
+Board.prototype.setSearch = function (hashLevel) {
   this.search = hashLevel == 0 ? null : new Search(this.pos, hashLevel);
 }
 
-Board.prototype.flipped = function(sq) {
+Board.prototype.flipped = function (sq) {
   return this.computer == 0 ? SQUARE_FLIP(sq) : sq;
 }
 
-Board.prototype.computerMove = function() {
+Board.prototype.computerMove = function () {
   return this.pos.sdPlayer == this.computer;
 }
 
-Board.prototype.computerLastMove = function() {
+Board.prototype.computerLastMove = function () {
   return 1 - this.pos.sdPlayer == this.computer;
 }
 
-Board.prototype.addMove = function(mv, computerMove) {
+Board.prototype.addMove = function (mv, computerMove) {
+  console.log('Board.addMove', mv, computerMove)
   if (!this.pos.legalMove(mv)) {
     return;
   }
@@ -172,7 +175,7 @@ Board.prototype.addMove = function(mv, computerMove) {
   style.zIndex = 256;
   var step = MAX_STEP - 1;
   var this_ = this;
-  var timer = setInterval(function() {
+  var timer = setInterval(function () {
     if (step == 0) {
       clearInterval(timer);
       style.left = xSrc + "px";
@@ -182,12 +185,13 @@ Board.prototype.addMove = function(mv, computerMove) {
     } else {
       style.left = MOVE_PX(xSrc, xDst, step);
       style.top = MOVE_PX(ySrc, yDst, step);
-      step --;
+      step--;
     }
   }, 16);
 }
 
-Board.prototype.postAddMove = function(mv, computerMove) {
+Board.prototype.postAddMove = function (mv, computerMove) {
+  console.log('Board.postAddMove', mv, computerMove)
   if (this.mvLast > 0) {
     this.drawSquare(SRC(this.mvLast), false);
     this.drawSquare(DST(this.mvLast), false);
@@ -203,7 +207,7 @@ Board.prototype.postAddMove = function(mv, computerMove) {
 
     var pc = SIDE_TAG(this.pos.sdPlayer) + PIECE_KING;
     var sqMate = 0;
-    for (var sq = 0; sq < 256; sq ++) {
+    for (var sq = 0; sq < 256; sq++) {
       if (this.pos.squares[sq] == pc) {
         sqMate = sq;
         break;
@@ -220,17 +224,17 @@ Board.prototype.postAddMove = function(mv, computerMove) {
     var xMate = SQ_X(sqMate);
     var step = MAX_STEP;
     var this_ = this;
-    var timer = setInterval(function() {
+    var timer = setInterval(function () {
       if (step == 0) {
         clearInterval(timer);
         style.left = xMate + "px";
         style.zIndex = 0;
         this_.imgSquares[sqMate].src = this_.images +
-            (this_.pos.sdPlayer == 0 ? "r" : "b") + "km.gif";
+          (this_.pos.sdPlayer == 0 ? "r" : "b") + "km.gif";
         this_.postMate(computerMove);
       } else {
         style.left = (xMate + ((step & 1) == 0 ? step : -step) * 2) + "px";
-        step --;
+        step--;
       }
     }, 50);
     return;
@@ -259,7 +263,7 @@ Board.prototype.postAddMove = function(mv, computerMove) {
 
   if (this.pos.captured()) {
     var hasMaterial = false;
-    for (var sq = 0; sq < 256; sq ++) {
+    for (var sq = 0; sq < 256; sq++) {
       if (IN_BOARD(sq) && (this.pos.squares[sq] & 7) > 2) {
         hasMaterial = true;
         break;
@@ -275,7 +279,7 @@ Board.prototype.postAddMove = function(mv, computerMove) {
     }
   } else if (this.pos.pcList.length > 100) {
     var captured = false;
-    for (var i = 2; i <= 100; i ++) {
+    for (var i = 2; i <= 100; i++) {
       if (this.pos.pcList[this.pos.pcList.length - i] > 0) {
         captured = true;
         break;
@@ -303,19 +307,22 @@ Board.prototype.postAddMove = function(mv, computerMove) {
   this.response();
 }
 
-Board.prototype.postAddMove2 = function() {
+Board.prototype.postAddMove2 = function () {
+  console.log('Board.postAddMove2')
   if (typeof this.onAddMove == "function") {
     this.onAddMove();
   }
 }
 
-Board.prototype.postMate = function(computerMove) {
+Board.prototype.postMate = function (computerMove) {
+  console.log('Board.postMate', computerMove)
   alertDelay(computerMove ? "请再接再厉！" : "祝贺你取得胜利！");
   this.postAddMove2();
   this.busy = false;
 }
 
-Board.prototype.response = function() {
+Board.prototype.response = function () {
+  console.log('Board.response')
   if (this.search == null || !this.computerMove()) {
     this.busy = false;
     return;
@@ -323,13 +330,14 @@ Board.prototype.response = function() {
   this.thinking.style.visibility = "visible";
   var this_ = this;
   this.busy = true;
-  setTimeout(function() {
+  setTimeout(function () {
     this_.addMove(board.search.searchMain(LIMIT_DEPTH, board.millis), true);
     this_.thinking.style.visibility = "hidden";
   }, 250);
 }
 
-Board.prototype.clickSquare = function(sq_) {
+Board.prototype.clickSquare = function (sq_) {
+  console.log('Board.clickSquare', sq_)
   if (this.busy || this.result != RESULT_UNKNOWN) {
     return;
   }
@@ -351,22 +359,22 @@ Board.prototype.clickSquare = function(sq_) {
   }
 }
 
-Board.prototype.drawSquare = function(sq, selected) {
+Board.prototype.drawSquare = function (sq, selected) {
   var img = this.imgSquares[this.flipped(sq)];
   img.src = this.images + PIECE_NAME[this.pos.squares[sq]] + ".gif";
   img.style.backgroundImage = selected ? "url(" + this.images + "oos.gif)" : "";
 }
 
-Board.prototype.flushBoard = function() {
+Board.prototype.flushBoard = function () {
   this.mvLast = this.pos.mvList[this.pos.mvList.length - 1];
-  for (var sq = 0; sq < 256; sq ++) {
+  for (var sq = 0; sq < 256; sq++) {
     if (IN_BOARD(sq)) {
       this.drawSquare(sq, sq == SRC(this.mvLast) || sq == DST(this.mvLast));
     }
   }
 }
 
-Board.prototype.restart = function(fen) {
+Board.prototype.restart = function (fen) {
   if (this.busy) {
     return;
   }
@@ -377,7 +385,7 @@ Board.prototype.restart = function(fen) {
   this.response();
 }
 
-Board.prototype.retract = function() {
+Board.prototype.retract = function () {
   if (this.busy) {
     return;
   }
@@ -392,7 +400,7 @@ Board.prototype.retract = function() {
   this.response();
 }
 
-Board.prototype.setSound = function(sound) {
+Board.prototype.setSound = function (sound) {
   this.sound = sound;
   if (sound) {
     this.playSound("click");
