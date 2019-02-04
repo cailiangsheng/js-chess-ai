@@ -19,12 +19,23 @@ const iccs2sqs = (iccs) => {
 
 describe('ChessAI', () => {
   let ai
+  let iccsList = []
 
   before(() => {
     ai = new ChessAI();
     ai.setSearch(16);
     ai.millis = 10;
     ai.computer = 1;
+    ai.onAddMove = function () {
+      var counter = (ai.pos.mvList.length >> 1);
+      var space = (counter > 99 ? "    " : "   ");
+      counter = (counter > 9 ? "" : " ") + counter + ".";
+      var iccs = move2Iccs(ai.mvLast)
+      var text = (ai.pos.sdPlayer == 0 ? space : counter) + iccs;
+      var value = "" + ai.mvLast;
+      console.log('TEST.onAddMove', value, text)
+      iccsList.push(iccs)
+    }
   })
 
   it('iccs to square', () => {
@@ -37,16 +48,12 @@ describe('ChessAI', () => {
   })
 
   it('click squares', (done) => {
-    ai.onAddMove = function () {
-      var counter = (ai.pos.mvList.length >> 1);
-      var space = (counter > 99 ? "    " : "   ");
-      counter = (counter > 9 ? "" : " ") + counter + ".";
-      var text = (ai.pos.sdPlayer == 0 ? space : counter) + move2Iccs(ai.mvLast);
-      var value = "" + ai.mvLast;
-      console.log('TEST.onAddMove', value, text)
-    }
     ai.clickSquare(iccs2sq('H2'))
     ai.clickSquare(iccs2sq('E2'))
-    setTimeout(done, 1500)
+    setTimeout(() => {
+      expect(iccsList).to.have.length(2)
+      expect(iccsList[0]).to.equal('H2-E2')
+      done()
+    }, 1500)
   })
 })
