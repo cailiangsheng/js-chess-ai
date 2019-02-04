@@ -98,6 +98,7 @@ function Board(container, images, sounds) {
     style.zIndex = 0;
     img.onmousedown = function (sq_) {
       return function () {
+        console.log('MouseDown', sq_)
         this_.clickSquare(sq_);
       }
     }(sq);
