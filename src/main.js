@@ -7,13 +7,17 @@ function main() {
 }
 
 function playEVE(board) {
+  var response = board.response;
+  board.response = function (reason) {
+    reason && response.apply(board);
+  }
   board.onAddMove = function () {
     board.computer = 1 - board.computer;
-    board.response();
+    board.response('eve');
     board.flushBoard();
   }
   board.computer = 0;
-  board.response();
+  board.response('init');
   board.flushBoard();
 }
 

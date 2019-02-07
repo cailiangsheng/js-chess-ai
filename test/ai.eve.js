@@ -4,6 +4,15 @@ import {
   move2Iccs
 } from '../dist/ai'
 
+const parseResult = (result) => (
+  {
+    [RESULT.WIN]: 'win',
+    [RESULT.LOSS]: 'loss',
+    [RESULT.DRAW]: 'draw',
+    [RESULT.UNKNOWN]: 'unknown'
+  }[result]
+)
+
 const getAI = () => {
   var ai = new ChessAI();
   ai.setSearch(16);
@@ -13,25 +22,23 @@ const getAI = () => {
 }
 
 const playEVE = (ai) => {
+  var response = ai.response;
+  ai.response = function (reason) {
+    reason && response.apply(ai);
+  }
   ai.onAddMove = function () {
     var numMoves = ai.pos.mvList.length - 1;
     var iccs = move2Iccs(ai.mvLast)
-    console.warn('EVE.onAddMove', `#${numMoves}`, `[${iccs}]`)
+    console.log('EVE.onAddMove', `#${numMoves}`, `[${iccs}]`);
     if (ai.result === RESULT.UNKNOWN) {
       ai.computer = 1 - ai.computer;
-      ai.response();
+      ai.response('eve');
     } else {
-      const result = {
-        [RESULT.WIN]: 'win',
-        [RESULT.LOSS]: 'loss',
-        [RESULT.DRAW]: 'draw',
-        [RESULT.UNKNOWN]: 'unknown'
-      }[ai.result];
-      console.log('EVE.result', result);
+      console.log('EVE.result', parseResult(ai.result));
     }
   }
   ai.computer = 0;
-  ai.response();
+  ai.response('init');
 }
 
-playEVE(getAI())
+playEVE(getAI());

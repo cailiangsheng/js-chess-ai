@@ -4,8 +4,8 @@
   "description": "Chinese Chess AI",
   "main": "index.js",
   "scripts": {
-    "test:eve": "node --require babel-register ./test/ai.eve.js",
-    "test:all": "npm run test ./test/**/*.test.js",
+    "test:eve": "gulp && node --require babel-register ./test/ai.eve.js",
+    "test:all": "gulp && npm run test ./test/**/*.test.js",
     "test": "mocha --require babel-register --require ./test.spec.js",
     "build": "gulp"
   },
