@@ -3,19 +3,10 @@ import {
   move2Iccs
 } from '../dist/ai'
 
-const iccs2sq = (iccs) => {
-  const regexp = /([A-Za-z]{1})(\d{1})/
-  const result = iccs.match(regexp)
-  if (result) {
-    const r1 = result[1].toLowerCase().charCodeAt(0) - 'a'.charCodeAt(0)
-    const r2 = parseInt(result[2])
-    return (r1 + 3) + (9 - r2 + 3) * 16
-  }
-}
-
-const iccs2sqs = (iccs) => {
-  return iccs.split('-').map(iccs2sq)
-}
+import {
+  iccs2sq,
+  iccs2sqs
+} from './util'
 
 describe('ChessAI', () => {
   let ai
@@ -27,18 +18,16 @@ describe('ChessAI', () => {
     ai.millis = 10;
     ai.computer = 1;
     ai.onAddMove = function () {
-      var counter = (ai.pos.mvList.length >> 1);
-      var space = (counter > 99 ? "    " : "   ");
-      counter = (counter > 9 ? "" : " ") + counter + ".";
+      var numMoves = ai.pos.mvList.length - 1
       var iccs = move2Iccs(ai.mvLast)
-      var text = (ai.pos.sdPlayer == 0 ? space : counter) + iccs;
-      var value = "" + ai.mvLast;
-      console.log('TEST.onAddMove', value, text)
+      var isComputer = ai.pos.sdPlayer == 0
+      var player = isComputer ? 'Computer' : 'Human'
+      console.log('TEST.onAddMove', `#${numMoves}`, `[${iccs}]`, `(${player})`)
       iccsList.push(iccs)
     }
   })
 
-  it('iccs to square', () => {
+  it('parse iccs to square', () => {
     expect(iccs2sq('A0')).to.equal(195)
     expect(iccs2sq('A1')).to.equal(179)
     expect(iccs2sq('I0')).to.equal(203)
@@ -47,7 +36,7 @@ describe('ChessAI', () => {
     expect(iccs2sq('H9')).to.equal(58)
   })
 
-  it('click squares', (done) => {
+  it('click squares to move', (done) => {
     const iccs = 'H2-E2'
 
     // do clicks

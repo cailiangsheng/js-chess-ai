@@ -192,6 +192,12 @@ class ChessAI {
 }
 
 module.exports = {
+  RESULT: {
+    UNKNOWN: RESULT_UNKNOWN,
+    WIN: RESULT_WIN,
+    LOSS: RESULT_LOSS,
+    DRAW: RESULT_DRAW
+  },
   ChessAI,
   move2Iccs
 }
