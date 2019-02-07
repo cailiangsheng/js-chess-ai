@@ -1,4 +1,5 @@
 import {
+  RESULT,
   ChessAI,
   move2Iccs
 } from '../dist/ai'
@@ -9,11 +10,18 @@ import {
 } from './util'
 
 describe('ChessAI', () => {
-  let ai
-  let iccsList = []
+  it('parse iccs to square', () => {
+    expect(iccs2sq('A0')).to.equal(195)
+    expect(iccs2sq('A1')).to.equal(179)
+    expect(iccs2sq('I0')).to.equal(203)
+    expect(iccs2sq('I1')).to.equal(187)
+    expect(iccs2sq('H2')).to.equal(170)
+    expect(iccs2sq('H9')).to.equal(58)
+  })
 
-  before(() => {
-    ai = new ChessAI();
+  it('click squares to move', (done) => {
+    const iccsList = [];
+    const ai = new ChessAI();
     ai.setSearch(16);
     ai.millis = 10;
     ai.computer = 1;
@@ -25,18 +33,7 @@ describe('ChessAI', () => {
       console.log('TEST.onAddMove', `#${numMoves}`, `[${iccs}]`, `(${player})`)
       iccsList.push(iccs)
     }
-  })
 
-  it('parse iccs to square', () => {
-    expect(iccs2sq('A0')).to.equal(195)
-    expect(iccs2sq('A1')).to.equal(179)
-    expect(iccs2sq('I0')).to.equal(203)
-    expect(iccs2sq('I1')).to.equal(187)
-    expect(iccs2sq('H2')).to.equal(170)
-    expect(iccs2sq('H9')).to.equal(58)
-  })
-
-  it('click squares to move', (done) => {
     const iccs = 'H2-E2'
 
     // do clicks
@@ -47,6 +44,21 @@ describe('ChessAI', () => {
       expect(iccsList).to.have.length(2)
       expect(iccsList[0]).to.equal(iccs)
       done()
+    }, 1500)
+  })
+
+  it('mate position', (done) => {
+    var ai = new ChessAI();
+    ai.setSearch(16);
+    ai.millis = 10;
+    ai.onAddMove = sinon.spy();
+    ai.pos.fromFen('3k5/4a4/9/9/2b6/9/9/3A1n3/4K4/2pn1A3 w');
+    ai.computer = 0;
+    ai.response();
+    setTimeout(() => {
+      expect(ai.onAddMove.callCount).to.equal(0);
+      expect(ai.pos.isMate()).to.be.true;
+      done();
     }, 1500)
   })
 })
