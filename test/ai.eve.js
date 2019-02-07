@@ -16,7 +16,7 @@ const parseResult = (result) => (
 const getAI = () => {
   var ai = new ChessAI();
   ai.setSearch(16);
-  ai.millis = 10;
+  ai.setLevel(2); // ai.millis = 10;
   ai.computer = 1;
   return ai;
 }

@@ -23,6 +23,11 @@ class ChessAI {
     this.busy = false;
   }
 
+  setLevel(level) {
+    level = isNaN(level) ? 0 : Math.max(Math.min(level, 0), 2);
+    this.millis = Math.pow(10, level + 1);
+  }
+
   playSound(soundFile) {
     console.log('AI.playSound', soundFile)
   }
