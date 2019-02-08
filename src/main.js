@@ -16,6 +16,7 @@ function playEVE(board) {
     board.response('eve');
     board.flushBoard();
   }
+  board.flipped = (sq) => sq
   board.computer = 0;
   board.response('init');
   board.flushBoard();
