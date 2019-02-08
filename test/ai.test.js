@@ -48,13 +48,29 @@ describe('ChessAI', () => {
     }, 1500)
   })
 
-  it('mate position', (done) => {
+  it('mate position 1', (done) => {
     var ai = new ChessAI();
     ai.setSearch(16);
     ai.millis = 10;
     ai.onAddMove = sinon.spy();
     ai.pos.fromFen('3k5/4a4/9/9/2b6/9/9/3A1n3/4K4/2pn1A3 w');
     ai.computer = 0;
+    ai.response();
+    setTimeout(() => {
+      expect(ai.onAddMove.callCount).to.equal(0);
+      expect(ai.pos.isMate()).to.be.true;
+      console.log(getResult(ai));
+      done();
+    }, 1500)
+  })
+
+  it('mate position 2', (done) => {
+    var ai = new ChessAI();
+    ai.setSearch(16);
+    ai.millis = 10;
+    ai.onAddMove = sinon.spy();
+    ai.pos.fromFen('5Rb2/9/4bk3/p8/4C4/8p/9/8B/4A4/3AK4 b');
+    ai.computer = 1;
     ai.response();
     setTimeout(() => {
       expect(ai.onAddMove.callCount).to.equal(0);
