@@ -48,7 +48,7 @@ describe('ChessAI', () => {
     }, 1500)
   })
 
-  it('mate position 1', (done) => {
+  it('mate position - red loss', (done) => {
     var ai = new ChessAI();
     ai.setSearch(16);
     ai.millis = 10;
@@ -64,7 +64,7 @@ describe('ChessAI', () => {
     }, 1500)
   })
 
-  it('mate position 2', (done) => {
+  it('mate position - black loss', (done) => {
     var ai = new ChessAI();
     ai.setSearch(16);
     ai.millis = 10;
