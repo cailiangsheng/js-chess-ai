@@ -5,6 +5,7 @@ import {
 } from '../dist/ai'
 
 import {
+  getResult,
   iccs2sq,
   iccs2sqs
 } from './util'
@@ -58,7 +59,34 @@ describe('ChessAI', () => {
     setTimeout(() => {
       expect(ai.onAddMove.callCount).to.equal(0);
       expect(ai.pos.isMate()).to.be.true;
+      console.log(getResult(ai));
       done();
     }, 1500)
+  })
+
+  it('draw position', (done) => {
+    var ai = new ChessAI();
+    ai.setSearch(16);
+    ai.millis = 10;
+    var response = ai.response;
+    ai.response = function (reason) {
+      reason && response.apply(ai);
+    }
+    ai.onAddMove = function () {
+      var numMoves = ai.pos.mvList.length - 1;
+      var iccs = move2Iccs(ai.mvLast)
+      console.log('TEST.onAddMove', `#${numMoves}`, `[${iccs}]`);
+      if (ai.result === RESULT.UNKNOWN) {
+        ai.computer = 1 - ai.computer;
+        ai.response('eve');
+      } else {
+        console.log('TEST.result', getResult(ai));
+        expect(ai.result).to.equal(RESULT.DRAW);
+        done();
+      }
+    };
+    ai.pos.fromFen('3ak1b2/4a4/9/R3p1N1p/9/c1P1r4/9/4B4/4K4/3A5 b');
+    ai.computer = 1;
+    ai.response('init');
   })
 })

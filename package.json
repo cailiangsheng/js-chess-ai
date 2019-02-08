@@ -6,7 +6,7 @@
   "scripts": {
     "test:eve": "gulp && node --require babel-register ./test/ai.eve.js",
     "test:all": "gulp && npm run test ./test/**/*.test.js",
-    "test": "mocha --require babel-register --require ./test.spec.js",
+    "test": "mocha --require babel-register --require ./test.spec.js --timeout 10000",
     "build": "gulp"
   },
   "repository": {

@@ -4,14 +4,7 @@ import {
   move2Iccs
 } from '../dist/ai'
 
-const parseResult = (result) => (
-  {
-    [RESULT.WIN]: 'win',
-    [RESULT.LOSS]: 'loss',
-    [RESULT.DRAW]: 'draw',
-    [RESULT.UNKNOWN]: 'unknown'
-  }[result]
-)
+import { getResult } from './util'
 
 const getAI = () => {
   var ai = new ChessAI();
@@ -34,7 +27,8 @@ const playEVE = (ai) => {
       ai.computer = 1 - ai.computer;
       ai.response('eve');
     } else {
-      console.log('EVE.result', parseResult(ai.result));
+      console.log('EVE.result', getResult(ai));
+      console.log('EVE.fen', ai.pos.toFen());
     }
   }
   ai.computer = 0;
