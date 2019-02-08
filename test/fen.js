@@ -42,11 +42,42 @@ const toFen = (chessmans) => {
   return fen
 }
 
-const toChessmans = (fen) => {
-  return []
+const fromFen = (fen) => {
+  const chessmans = []
+  for (let i = 0, rowIndex = 0, cellIndex = 0, numEmpty = ''; i < fen.length; i++) {
+    const c = fen.charAt(i)
+    if (isNaN(parseInt(c))) {
+      if (c === '/') {
+        rowIndex++
+        cellIndex = 0
+        numEmpty = ''
+      } else {
+        if (numEmpty !== '') {
+          cellIndex = cellIndex + parseInt(numEmpty)
+          numEmpty = ''
+        }
+        const name = Object.keys(PIECE).find(key => PIECE[key] === c)
+        if (name) {
+          chessmans.push({
+            name,
+            position: {
+              rowIndex,
+              cellIndex
+            }
+          })
+        } else {
+          console.error('Not parsed', c)
+        }
+        cellIndex++
+      }
+    } else {
+      numEmpty = numEmpty + c
+    }
+  }
+  return chessmans
 }
 
 export {
   toFen,
-  toChessmans
+  fromFen
 }
