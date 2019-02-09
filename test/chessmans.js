@@ -1,5 +1,6 @@
 import {
-  iccs2pos
+  iccs2pos,
+  pos2iccs
 } from './iccs'
 
 const PIECE = {
@@ -83,8 +84,11 @@ const fromFen = (fen) => {
 
 const fromIccs = (iccs) => iccs.split('-').map(iccs2pos)
 
+const toIccs = (steppedPositions) => steppedPositions.map(pos2iccs).join('-')
+
 export {
   toFen,
   fromFen,
-  fromIccs
+  fromIccs,
+  toIccs
 }

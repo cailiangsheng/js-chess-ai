@@ -204,5 +204,6 @@ module.exports = {
     DRAW: RESULT_DRAW
   },
   ChessAI,
-  move2Iccs
+  move2Iccs,
+  MOVE
 }

@@ -26,8 +26,15 @@ const iccs2pos = (iccs) => {
   }
 }
 
+const pos2iccs = (position) => {
+  const name = String.fromCharCode(position.cellIndex + 'A'.charCodeAt(0))
+  const index = 9 - position.rowIndex
+  return `${name}${index}`
+}
+
 export {
   iccs2sq,
   iccs2sqs,
-  iccs2pos
+  iccs2pos,
+  pos2iccs
 }
