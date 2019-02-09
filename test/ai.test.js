@@ -5,10 +5,13 @@ import {
 } from '../dist/ai'
 
 import {
-  getResult,
   iccs2sq,
   iccs2sqs
-} from './util'
+} from './iccs'
+
+import {
+  getResult
+} from './result'
 
 describe('ChessAI', () => {
   it('parse iccs to square', () => {

@@ -1,3 +1,7 @@
+import {
+  iccs2pos
+} from './iccs'
+
 const PIECE = {
   '俥': 'R', // red rook
   '傌': 'N', // red knight
@@ -77,7 +81,10 @@ const fromFen = (fen) => {
   return chessmans
 }
 
+const fromIccs = (iccs) => iccs.split('-').map(iccs2pos)
+
 export {
   toFen,
-  fromFen
+  fromFen,
+  fromIccs
 }
