@@ -17,32 +17,41 @@ describe('ChessAI', () => {
     expect(iccs2sq('H9')).to.equal(58)
   })
 
-  it('click squares to move', (done) => {
+  it('move and retract', (done) => {
     const iccsList = [];
     const ai = new ChessAI();
+    const numMoves = () => (ai.pos.mvList.length - 1)
     ai.setSearch(16);
     ai.millis = 10;
     ai.computer = 1;
     ai.onAddMove = function () {
-      var numMoves = ai.pos.mvList.length - 1
       var iccs = move2Iccs(ai.mvLast)
       var isComputer = ai.pos.sdPlayer == 0
       var player = isComputer ? 'Computer' : 'Human'
-      console.log('TEST.onAddMove', `#${numMoves}`, `[${iccs}]`, `(${player})`)
+      console.log('TEST.onAddMove', `#${numMoves()}`, `[${iccs}]`, `(${player})`)
       iccsList.push(iccs)
     }
 
     const iccs = 'H2-E2'
+
+    // before clicks
+    expect(numMoves()).to.equal(0)
 
     // do clicks
     iccs2sqs(iccs).forEach((sq) => ai.clickSquare(sq))
 
     // get moves
     setTimeout(() => {
-      expect(iccsList).to.have.length(2)
+      // after moves
       expect(iccsList[0]).to.equal(iccs)
+      expect(numMoves()).to.equal(2)
+
+      ai.retract()
+
+      // after retract
+      expect(numMoves()).to.equal(0)
       done()
-    }, 1500)
+    }, 3000)
   })
 
   it('mate position - red loss', (done) => {

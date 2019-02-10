@@ -194,6 +194,21 @@ class ChessAI {
       this.addMove(MOVE(this.sqSelected, sq), false);
     }
   }
+
+  retract() {
+    if (this.busy) {
+      return;
+    }
+    this.result = RESULT_UNKNOWN;
+    if (this.pos.mvList.length > 1) {
+      this.pos.undoMakeMove();
+    }
+    if (this.pos.mvList.length > 1 && this.computerMove()) {
+      this.pos.undoMakeMove();
+    }
+    this.mvLast = this.pos.mvList[this.pos.mvList.length - 1];
+    this.response();
+  }
 }
 
 module.exports = {

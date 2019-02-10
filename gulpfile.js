@@ -17,8 +17,8 @@ var libs = files.map(file => `${folder}/${file}`)
 
 var sources = libs.concat([
 	'src/board.js',
-	// 'src/index.js'
-	'src/main.js'
+	'src/index.js'
+	// 'src/main.js'
 ])
 
 var sources_ai = libs.concat([
