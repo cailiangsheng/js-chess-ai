@@ -4,14 +4,8 @@ import {
   move2Iccs
 } from '../dist/ai'
 
-import {
-  iccs2sq,
-  iccs2sqs
-} from './iccs'
-
-import {
-  getResult
-} from './result'
+import { iccs2sq, iccs2sqs } from '../util/iccs'
+import { getResult } from '../util/result'
 
 describe('ChessAI', () => {
   it('parse iccs to square', () => {

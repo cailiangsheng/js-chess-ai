@@ -4,7 +4,7 @@ import {
   move2Iccs
 } from '../dist/ai'
 
-import { getResult } from './result'
+import { getResult } from '../util/result'
 
 const getAI = () => {
   var ai = new ChessAI();

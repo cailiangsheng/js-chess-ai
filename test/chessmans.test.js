@@ -2,7 +2,7 @@ import {
   toFen,
   fromFen,
   fromIccs
-} from './chessmans'
+} from '../util/chessmans'
 
 import chessmans from './chessmans.test.json'
 
