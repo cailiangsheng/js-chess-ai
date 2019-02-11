@@ -195,6 +195,17 @@ class ChessAI {
     }
   }
 
+  restart(fen = 'rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w') {
+    if (this.busy) {
+      return;
+    }
+    this.result = RESULT_UNKNOWN;
+    this.pos.fromFen(fen);
+    this.mvLast = this.pos.mvList[this.pos.mvList.length - 1];
+    this.playSound("newgame");
+    this.response();
+  }
+
   retract() {
     if (this.busy) {
       return;
