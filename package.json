@@ -4,7 +4,7 @@
   "description": "Chinese Chess AI",
   "main": "index.js",
   "scripts": {
-    "postinstall": "npm run build",
+    "preinstall": "npm run build",
     "test:eve": "gulp && node --require babel-register ./test/ai.eve.js",
     "test:all": "gulp && npm run test ./test/**/*.test.js",
     "test": "mocha --require babel-register --require ./test.spec.js --timeout 10000",
@@ -25,7 +25,12 @@
   },
   "homepage": "https://github.com/cailiangsheng/js-chess-ai#readme",
   "dependencies": {
-    "xqbase.com": "git+https://github.com/cailiangsheng/xqbase.com.git"
+    "xqbase.com": "git+https://github.com/cailiangsheng/xqbase.com.git",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.1",
+    "gulp-clean": "^0.4.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-uglify": "^3.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -39,11 +44,6 @@
     "babel-register": "^6.26.0",
     "babel-runtime": "^6.26.0",
     "chai": "^4.1.2",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^7.0.1",
-    "gulp-clean": "^0.4.0",
-    "gulp-concat": "^2.6.1",
-    "gulp-uglify": "^3.0.1",
     "mocha": "^5.2.0",
     "run-sequence": "^2.2.1",
     "sinon": "^6.0.0"
