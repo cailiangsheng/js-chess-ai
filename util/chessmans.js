@@ -82,7 +82,7 @@ const fromFen = (fen) => {
   return chessmans
 }
 
-const fromIccs = (iccs) => iccs.split('-').map(iccs2pos)
+const fromIccs = (iccs) => iccs === '><-><' ? [] : iccs.split('-').map(iccs2pos)
 
 const toIccs = (steppedPositions) => steppedPositions.map(pos2iccs).join('-')
 
