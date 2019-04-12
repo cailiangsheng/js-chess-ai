@@ -56,6 +56,14 @@ gulp.task('concat-ai', () => {
 		.pipe(gulp.dest('dist'))
 })
 
+gulp.task('index', () => {
+	return gulp.src('src/index.js')
+		.pipe(concat('index.js'))
+		.pipe(babel())
+		.pipe(uglify())
+		.pipe(gulp.dest('dist'))
+})
+
 gulp.task('copy', (cb) => {
 	var assets = ['src/style.css', 'src/xqwlight.htm', 'src/eve.htm', 'node_modules/xqbase.com/background.gif']
 	var resources = ['sounds', 'images']
@@ -78,5 +86,5 @@ gulp.task('copy', (cb) => {
 })
 
 gulp.task('default', (cb) => {
-	runSequence('clean', 'concat-xqwlight', 'concat-eve', 'concat-ai', 'copy', cb)
+	runSequence('clean', 'concat-xqwlight', 'concat-eve', 'concat-ai', 'index', 'copy', cb)
 })
