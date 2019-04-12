@@ -19,14 +19,8 @@
   ],
   "author": "Larry Cai",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/cailiangsheng/js-chess-ai/issues"
-  },
-  "homepage": "https://github.com/cailiangsheng/js-chess-ai#readme",
-  "dependencies": {
-    "xqbase.com": "git+https://github.com/cailiangsheng/xqbase.com.git"
-  },
   "devDependencies": {
+    "xqbase.com": "git+https://github.com/cailiangsheng/xqbase.com.git",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-plugin-module-alias": "^1.6.0",
