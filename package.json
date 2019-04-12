@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Chinese Chess AI",
   "main": "index.js",
+  "miniprogram": ".",
   "scripts": {
     "test:eve": "gulp && node --require babel-register ./test/ai.eve.js",
     "test:all": "gulp && npm run test ./test/**/*.test.js",
