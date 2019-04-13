@@ -31,24 +31,24 @@ var sources_ai = libs.concat([
 ])
 
 gulp.task('clean', () => {
-	return gulp.src('./dist', { read: false })
+	return gulp.src(['./dist', './demo'], { read: false })
 		.pipe(clean())
 })
 
-gulp.task('concat-xqwlight', () => {
+gulp.task('demo-xqwlight', () => {
 	return gulp.src(sources_xqwlight)
 		.pipe(concat('xqwlight.js'))
 		.pipe(uglify())
-		.pipe(gulp.dest('dist'))
+		.pipe(gulp.dest('demo'))
 })
 
-gulp.task('concat-eve', () => {
+gulp.task('demo-eve', () => {
 	return gulp.src(sources_eve)
 		.pipe(concat('eve.js'))
-		.pipe(gulp.dest('dist'))
+		.pipe(gulp.dest('demo'))
 })
 
-gulp.task('concat-ai', () => {
+gulp.task('dist-ai', () => {
 	return gulp.src(sources_ai)
 		.pipe(concat('ai.js'))
 		.pipe(babel())
@@ -56,7 +56,7 @@ gulp.task('concat-ai', () => {
 		.pipe(gulp.dest('dist'))
 })
 
-gulp.task('index', () => {
+gulp.task('dist-index', () => {
 	return gulp.src('src/index.js')
 		.pipe(concat('index.js'))
 		.pipe(babel())
@@ -64,9 +64,9 @@ gulp.task('index', () => {
 		.pipe(gulp.dest('dist'))
 })
 
-gulp.task('copy', (cb) => {
-	var assets = ['src/style.css', 'src/xqwlight.htm', 'src/eve.htm', 'node_modules/xqbase.com/background.gif']
-	var resources = ['sounds', 'images']
+gulp.task('demo-assets', (cb) => {
+	var files = ['src/style.css', 'src/xqwlight.htm', 'src/eve.htm', 'node_modules/xqbase.com/background.gif']
+	var folders = ['sounds', 'images']
 
 	let count = 0
 	var callback = () => {
@@ -76,15 +76,15 @@ gulp.task('copy', (cb) => {
 		}
 	}
 
-	gulp.src(assets).pipe(gulp.dest('dist')).on('end', callback())
+	gulp.src(files).pipe(gulp.dest('demo')).on('end', callback())
 
-	resources.forEach(resource => {
+	folders.forEach(resource => {
 		gulp.src(`${folder}/${resource}/*`)
-			.pipe(gulp.dest(`dist/${resource}`))
+			.pipe(gulp.dest(`demo/${resource}`))
 			.on('end', callback())
 	})
 })
 
 gulp.task('default', (cb) => {
-	runSequence('clean', 'concat-xqwlight', 'concat-eve', 'concat-ai', 'index', 'copy', cb)
+	runSequence('clean', 'demo-xqwlight', 'demo-eve', 'dist-ai', 'dist-index', 'demo-assets', cb)
 })
