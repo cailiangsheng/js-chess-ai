@@ -5,16 +5,15 @@ var concat = require('gulp-concat')
 var uglify = require('gulp-uglify')
 var runSequence = require('run-sequence')
 
-var files = [
-	'book.js',
-	'position.js',
-	'search.js',
-	'cchess.js'
-]
-
 var folder = 'node_modules/xqbase.com/xqwlight'
 
-var libs = files.map(file => `${folder}/${file}`)
+var libs = [
+		'book.js',
+		'position.js',
+		'search.js'
+	]
+	.map(file => `${folder}/${file}`)
+	.concat('src/cchess.js')
 
 var sources_xqwlight = libs.concat([
 	'src/board.js',

@@ -13681,13 +13681,13 @@ Search.prototype.getKNPS = function() {
 }
 "use strict";
 
-function CHR(n) {
-  return String.fromCharCode(n);
-}
+// function CHR(n) {
+//   return String.fromCharCode(n);
+// }
 
-function ASC(c) {
-  return c.charCodeAt(0);
-}
+// function ASC(c) {
+//   return c.charCodeAt(0);
+// }
 
 function move2Iccs(mv) {
   var sqSrc = SRC(mv);
