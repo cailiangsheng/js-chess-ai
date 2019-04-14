@@ -5,15 +5,17 @@ var concat = require('gulp-concat')
 var uglify = require('gulp-uglify')
 var runSequence = require('run-sequence')
 
-var folder = 'node_modules/xqbase.com/xqwlight'
+var XQWLIGHT = 'node_modules/xqbase.com/xqwlight'
 
-var libs = [
+var libs = (
+	[
 		'book.js',
 		'position.js',
 		'search.js'
 	]
-	.map(file => `${folder}/${file}`)
+	.map(file => `${XQWLIGHT}/${file}`)
 	.concat('src/cchess.js')
+)
 
 var sources_xqwlight = libs.concat([
 	'src/board.js',
@@ -77,9 +79,9 @@ gulp.task('demo-assets', (cb) => {
 
 	gulp.src(files).pipe(gulp.dest('demo')).on('end', callback())
 
-	folders.forEach(resource => {
-		gulp.src(`${folder}/${resource}/*`)
-			.pipe(gulp.dest(`demo/${resource}`))
+	folders.forEach(folder => {
+		gulp.src(`${XQWLIGHT}/${folder}/*`)
+			.pipe(gulp.dest(`demo/${folder}`))
 			.on('end', callback())
 	})
 })
